@@ -28,6 +28,22 @@
                             light: '#10B981', // Emerald
                             dark: '#064E3B',
                         }
+                    },
+                    animation: {
+                        'blob': 'blob 7s infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
                     }
                 }
             }
@@ -35,21 +51,21 @@
     </script>
     <style>
         .glass-panel {
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 255, 255, 0.3);
         }
         .dark .glass-panel {
-            background: rgba(17, 24, 39, 0.7);
+            background: rgba(17, 24, 39, 0.75);
             border: 1px solid rgba(255, 255, 255, 0.05);
         }
         
         .card-hover {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .card-hover:hover {
-            transform: translateY(-5px);
+            transform: translateY(-5px) scale(1.01);
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
         }
 
@@ -75,7 +91,7 @@
         .reveal {
             opacity: 0;
             transform: translateY(30px);
-            transition: all 0.8s ease-out;
+            transition: all 0.6s ease-out;
         }
         .reveal.active {
             opacity: 1;
@@ -86,23 +102,70 @@
             line-height: 2.2;
             direction: rtl;
         }
+
+        /* Audio Wave Animation */
+        .playing-indicator span {
+            display: inline-block;
+            width: 3px;
+            background-color: #10B981;
+            animation: wave 1s infinite ease-in-out;
+        }
+        .playing-indicator span:nth-child(1) { animation-delay: 0.0s; height: 10px; }
+        .playing-indicator span:nth-child(2) { animation-delay: 0.1s; height: 15px; }
+        .playing-indicator span:nth-child(3) { animation-delay: 0.2s; height: 10px; }
+        
+        @keyframes wave {
+            0%, 100% { transform: scaleY(1); }
+            50% { transform: scaleY(1.5); }
+        }
+
+        /* Memorization Blur Effect */
+        .memorize-mode .blur-target {
+            filter: blur(8px);
+            user-select: none;
+            transition: filter 0.3s ease;
+            cursor: help;
+        }
+        .memorize-mode .blur-target:hover, 
+        .memorize-mode .blur-target.revealed {
+            filter: blur(0);
+        }
+
+        /* Modal Transitions */
+        .modal {
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease-in-out;
+        }
+        .modal.open {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-content {
+            transform: scale(0.9);
+            transition: all 0.3s ease-in-out;
+        }
+        .modal.open .modal-content {
+            transform: scale(1);
+        }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800 dark:bg-slate-900 dark:text-slate-100 transition-colors duration-300 min-h-screen relative overflow-x-hidden selection:bg-emerald-500 selection:text-white">
 
     <!-- Background Elements -->
     <div class="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
-        <div class="absolute top-0 left-1/4 w-96 h-96 bg-emerald-300/20 dark:bg-emerald-500/10 rounded-full blur-3xl"></div>
-        <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-300/20 dark:bg-blue-500/10 rounded-full blur-3xl"></div>
+        <div class="absolute top-0 left-1/4 w-96 h-96 bg-emerald-300/20 dark:bg-emerald-500/10 rounded-full blur-3xl mix-blend-multiply dark:mix-blend-normal animate-blob"></div>
+        <div class="absolute top-0 right-1/4 w-96 h-96 bg-purple-300/20 dark:bg-purple-500/10 rounded-full blur-3xl mix-blend-multiply dark:mix-blend-normal animate-blob animation-delay-2000"></div>
+        <div class="absolute bottom-0 left-1/3 w-96 h-96 bg-blue-300/20 dark:bg-blue-500/10 rounded-full blur-3xl mix-blend-multiply dark:mix-blend-normal animate-blob animation-delay-4000"></div>
     </div>
 
     <!-- Navigation / Header -->
     <nav class="fixed w-full z-50 transition-all duration-300" id="navbar">
-        <div class="glass-panel shadow-sm">
+        <div class="glass-panel shadow-sm border-b border-white/20">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between items-center h-20">
-                    <div class="flex items-center space-x-3">
-                        <div class="w-10 h-10 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-lg flex items-center justify-center text-white shadow-lg">
+                    <div class="flex items-center space-x-3 cursor-pointer" onclick="window.scrollTo({top:0, behavior:'smooth'})">
+                        <div class="w-10 h-10 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-lg flex items-center justify-center text-white shadow-lg transform hover:rotate-3 transition-transform">
                             <i class="fas fa-book-quran text-xl"></i>
                         </div>
                         <div>
@@ -114,10 +177,17 @@
                     </div>
                     
                     <div class="flex items-center gap-4">
-                        <span class="hidden md:inline-block text-sm font-medium px-3 py-1 rounded-full bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
-                            Hadis 24 - 45
-                        </span>
-                        <button id="theme-toggle" class="w-10 h-10 rounded-full flex items-center justify-center bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-emerald-500 hover:text-white dark:hover:bg-emerald-500 transition-all duration-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 dark:focus:ring-offset-slate-900">
+                        <!-- Progress Bar (Desktop) -->
+                        <div class="hidden md:flex flex-col items-end mr-4">
+                            <div class="text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">
+                                Okuma İlerlemesi: <span id="progress-text" class="text-emerald-600 dark:text-emerald-400 font-bold">0/22</span>
+                            </div>
+                            <div class="w-32 h-2 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+                                <div id="progress-bar" class="h-full bg-gradient-to-r from-emerald-400 to-teal-500 transition-all duration-500" style="width: 0%"></div>
+                            </div>
+                        </div>
+
+                        <button id="theme-toggle" class="w-10 h-10 rounded-full flex items-center justify-center bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-emerald-500 hover:text-white dark:hover:bg-emerald-500 transition-all duration-300 shadow-sm focus:outline-none">
                             <i class="fas fa-moon dark:hidden"></i>
                             <i class="fas fa-sun hidden dark:block"></i>
                         </button>
@@ -128,10 +198,10 @@
     </nav>
 
     <!-- Main Content -->
-    <main class="pt-28 pb-12 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
+    <main class="pt-28 pb-12 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
         
         <!-- Header Section -->
-        <header class="text-center mb-16 reveal active">
+        <header class="text-center mb-10 reveal active">
             <span class="inline-block py-1 px-3 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-300 text-xs font-bold tracking-wider uppercase mb-4 border border-blue-200 dark:border-blue-800">
                 Necasetin Giderilmesi & Abdest
             </span>
@@ -141,31 +211,148 @@
             <p class="text-lg text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
                  Necasetin Giderilmesi ve Abdest bahisleri (24-45. Hadisler).
             </p>
+            
+            <!-- Mobile Progress -->
+            <div class="md:hidden mt-6 px-10">
+                <div class="text-xs font-medium text-slate-500 dark:text-slate-400 mb-1 flex justify-between">
+                    <span>İlerleme</span>
+                    <span id="progress-text-mobile" class="text-emerald-600 dark:text-emerald-400 font-bold">0/22</span>
+                </div>
+                <div class="w-full h-2 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+                    <div id="progress-bar-mobile" class="h-full bg-gradient-to-r from-emerald-400 to-teal-500 transition-all duration-500" style="width: 0%"></div>
+                </div>
+            </div>
         </header>
 
+        <!-- Advanced Controls Bar (Sticky) -->
+        <div class="sticky top-24 z-40 mb-10 reveal active delay-100">
+            <div class="glass-panel p-4 rounded-2xl shadow-lg flex flex-col xl:flex-row gap-4 items-center justify-between transition-all duration-300" id="control-bar">
+                <!-- Search -->
+                <div class="relative w-full xl:w-80 group">
+                    <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-emerald-500 transition-colors"></i>
+                    <input type="text" id="search-input" placeholder="Hadis ara..." class="w-full pl-11 pr-4 py-3 rounded-xl bg-slate-100 dark:bg-slate-800 border-2 border-transparent focus:border-emerald-500 focus:bg-white dark:focus:bg-slate-900 transition-all outline-none text-sm font-medium shadow-inner">
+                </div>
+                
+                <!-- Innovative Features Toolbar -->
+                <div class="flex flex-wrap gap-3 w-full xl:w-auto justify-center xl:justify-end items-center">
+                    
+                    <!-- Memorization Mode Toggle -->
+                    <button id="btn-memorize" onclick="toggleMemorization()" class="px-4 py-3 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-purple-50 dark:hover:bg-purple-900/30 text-slate-600 dark:text-slate-300 hover:text-purple-600 dark:hover:text-purple-400 transition-all whitespace-nowrap text-sm font-medium border-2 border-transparent group flex items-center gap-2">
+                        <i class="fas fa-brain group-hover:rotate-12 transition-transform"></i>
+                        <span>Ezber Modu</span>
+                        <div class="w-8 h-4 bg-slate-300 dark:bg-slate-600 rounded-full relative transition-colors ml-1">
+                            <div class="w-4 h-4 bg-white rounded-full shadow-md transform scale-110 transition-transform absolute left-0 toggle-dot"></div>
+                        </div>
+                    </button>
+
+                    <!-- Random Hadith -->
+                    <button onclick="showRandomHadith()" class="px-4 py-3 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-amber-50 dark:hover:bg-amber-900/30 text-slate-600 dark:text-slate-300 hover:text-amber-600 dark:hover:text-amber-400 transition-all whitespace-nowrap text-sm font-medium border-2 border-transparent group flex items-center gap-2" title="Rastgele Hadis Getir">
+                        <i class="fas fa-random group-hover:spin-once"></i>
+                        <span class="hidden sm:inline">Rastgele</span>
+                    </button>
+
+                    <div class="h-8 w-px bg-slate-300 dark:bg-slate-700 mx-1 hidden sm:block"></div>
+
+                    <!-- Category Filter -->
+                    <div class="relative w-full sm:w-auto">
+                        <select id="tag-filter" class="w-full sm:w-auto appearance-none pl-4 pr-10 py-3 rounded-xl bg-slate-100 dark:bg-slate-800 border-2 border-transparent hover:border-emerald-500/50 focus:border-emerald-500 outline-none cursor-pointer text-sm font-medium transition-all">
+                            <option value="">Tüm Konular</option>
+                            <!-- Tags injected by JS -->
+                        </select>
+                        <i class="fas fa-chevron-down absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-xs"></i>
+                    </div>
+                    
+                    <!-- Favorites Toggle -->
+                    <button id="btn-favorites" class="w-full sm:w-auto px-5 py-3 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-red-50 dark:hover:bg-red-900/30 text-slate-600 dark:text-slate-300 hover:text-red-500 dark:hover:text-red-400 transition-all whitespace-nowrap text-sm font-medium border-2 border-transparent group flex items-center justify-center gap-2">
+                        <i class="far fa-heart group-hover:scale-110 transition-transform"></i>
+                        <span>Favorilerim</span>
+                    </button>
+                    
+                    <!-- Font Size -->
+                    <div class="hidden sm:flex bg-slate-100 dark:bg-slate-800 rounded-xl p-1 border-2 border-transparent">
+                        <button onclick="changeFontSize(-1)" class="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-white dark:hover:bg-slate-700 shadow-sm hover:shadow text-slate-600 dark:text-slate-300 transition-all">
+                            <i class="fas fa-minus text-xs"></i>
+                        </button>
+                        <span class="flex items-center justify-center w-8 text-xs font-bold text-slate-400 select-none">Aa</span>
+                        <button onclick="changeFontSize(1)" class="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-white dark:hover:bg-slate-700 shadow-sm hover:shadow text-slate-600 dark:text-slate-300 transition-all">
+                            <i class="fas fa-plus text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Result Count -->
+            <div id="status-bar" class="text-center mt-2 text-xs font-medium text-slate-400 hidden">
+                <span id="result-count">0</span> hadis listeleniyor
+            </div>
+        </div>
+
         <!-- Hadith Grid -->
-        <div id="hadith-container" class="grid grid-cols-1 gap-8">
+        <div id="hadith-container" class="grid grid-cols-1 md:grid-cols-2 gap-6 pb-20">
             <!-- Content will be injected by JS -->
         </div>
 
-        <!-- Pagination / Footer Loading -->
-        <div class="mt-16 text-center">
-            <div class="inline-flex items-center gap-2 text-slate-400 text-sm">
-                <i class="fas fa-circle text-[8px] animate-bounce"></i>
-                <i class="fas fa-circle text-[8px] animate-bounce delay-100"></i>
-                <i class="fas fa-circle text-[8px] animate-bounce delay-200"></i>
+        <!-- Empty State -->
+        <div id="empty-state" class="hidden flex-col items-center justify-center py-20 text-center reveal">
+            <div class="w-24 h-24 bg-slate-100 dark:bg-slate-800 rounded-full flex items-center justify-center mb-6 text-slate-300 dark:text-slate-600">
+                <i class="fas fa-search text-4xl"></i>
             </div>
-            <p class="mt-4 text-slate-500 dark:text-slate-400 text-sm">Kaynak: Muhammet Sıtkı Karabağ'ın Bizzati Kendisi</p>
+            <h3 class="text-xl font-bold text-slate-700 dark:text-slate-300 mb-2">Sonuç Bulunamadı</h3>
+            <button onclick="resetFilters()" class="mt-6 px-6 py-2 bg-emerald-500 hover:bg-emerald-600 text-white rounded-lg transition-colors font-medium">
+                Filtreleri Temizle
+            </button>
+        </div>
+
+        <!-- Pagination -->
+        <div class="mt-8 text-center border-t border-slate-200 dark:border-slate-800 pt-8">
+            <p class="text-slate-500 dark:text-slate-400 text-sm mb-2">Kaynak: Muhammet Sıtkı Karabağ'ın Bizzat Kendisi</p>
+            <div class="inline-flex items-center justify-center gap-4 text-xs text-slate-400">
+                <span>v3.0 Ultra</span>
+                <span>&bull;</span>
+                <span>İbn Hacer el-Askalânî</span>
+            </div>
         </div>
     </main>
 
     <!-- Scroll to Top Button -->
-    <button id="scroll-top" class="fixed bottom-8 right-8 w-12 h-12 rounded-full bg-emerald-600 text-white shadow-lg flex items-center justify-center translate-y-20 opacity-0 transition-all duration-300 hover:bg-emerald-700 z-40">
-        <i class="fas fa-arrow-up"></i>
+    <button id="scroll-top" class="fixed bottom-8 right-8 w-12 h-12 rounded-full bg-emerald-600 text-white shadow-xl shadow-emerald-600/30 flex items-center justify-center translate-y-20 opacity-0 transition-all duration-300 hover:bg-emerald-700 hover:-translate-y-1 z-40 group">
+        <i class="fas fa-arrow-up group-hover:animate-bounce"></i>
     </button>
 
+    <!-- Zen/Focus Mode Modal -->
+    <div id="focus-modal" class="modal fixed inset-0 z-[60] flex items-center justify-center p-4 backdrop-blur-md bg-slate-900/60">
+        <div class="absolute inset-0" onclick="closeFocusMode()"></div>
+        <div class="modal-content relative w-full max-w-2xl bg-white dark:bg-slate-800 rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+            <!-- Modal Header -->
+            <div class="p-6 border-b border-slate-100 dark:border-slate-700 flex justify-between items-center bg-slate-50/50 dark:bg-slate-800/50">
+                <div class="flex items-center gap-3">
+                    <span id="modal-id" class="flex items-center justify-center w-8 h-8 rounded-lg bg-emerald-100 dark:bg-emerald-900 text-emerald-700 dark:text-emerald-300 font-bold text-sm"></span>
+                    <span class="text-xs font-bold tracking-wider text-slate-400 uppercase">Odak Modu</span>
+                </div>
+                <button onclick="closeFocusMode()" class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center text-slate-500 hover:bg-red-100 hover:text-red-500 transition-colors">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <!-- Modal Body (Scrollable) -->
+            <div class="p-8 md:p-12 overflow-y-auto custom-scrollbar flex-1 flex flex-col justify-center items-center text-center">
+                <i class="fas fa-quote-left text-4xl text-emerald-200 dark:text-emerald-900 mb-6"></i>
+                <p id="modal-arabic" class="text-3xl md:text-4xl font-arabic leading-loose text-slate-800 dark:text-slate-100 mb-8 dir-rtl"></p>
+                <div class="w-16 h-1 bg-emerald-500 rounded-full mb-8 opacity-50"></div>
+                <p id="modal-turkish" class="text-lg md:text-xl text-slate-600 dark:text-slate-300 font-medium leading-relaxed"></p>
+                <div class="mt-8 flex flex-wrap gap-2 justify-center" id="modal-tags"></div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="p-6 bg-slate-50 dark:bg-slate-900/50 border-t border-slate-100 dark:border-slate-700 flex justify-between items-center">
+                <p id="modal-narrator" class="text-sm font-bold text-slate-500"></p>
+                <p class="text-xs text-slate-400">Ekran görüntüsü alıp paylaşabilirsiniz</p>
+            </div>
+        </div>
+    </div>
+
     <script>
-        // Data: Hadiths 24-45 from the uploaded PDF
+        // --- DATA ---
         const hadiths = [
             // NECÂSETİN GİDERİLMESİ BABI
             {
@@ -347,72 +534,374 @@
             }
         ];
 
+        // --- STATE & DOM ELEMENTS ---
         const container = document.getElementById('hadith-container');
         const themeToggle = document.getElementById('theme-toggle');
         const scrollTopBtn = document.getElementById('scroll-top');
+        const searchInput = document.getElementById('search-input');
+        const tagFilter = document.getElementById('tag-filter');
+        const favoritesBtn = document.getElementById('btn-favorites');
+        const emptyState = document.getElementById('empty-state');
+        const resultCountSpan = document.getElementById('result-count');
+        const statusBar = document.getElementById('status-bar');
+        const progressBar = document.getElementById('progress-bar');
+        const progressBarMobile = document.getElementById('progress-bar-mobile');
+        const progressText = document.getElementById('progress-text');
+        const progressTextMobile = document.getElementById('progress-text-mobile');
 
-        // Initial Render
+        // New State Variables
+        let state = {
+            searchQuery: '',
+            selectedTag: '',
+            showFavoritesOnly: false,
+            fontSizeLevel: 1, 
+            memorizationMode: false,
+            favorites: JSON.parse(localStorage.getItem('bulugulMeramFavorites')) || [],
+            readHadiths: JSON.parse(localStorage.getItem('bulugulMeramRead')) || []
+        };
+
+        const fontSizes = [
+            { arabic: 'text-xl md:text-2xl', turkish: 'text-base', height: 'leading-normal' },    
+            { arabic: 'text-2xl md:text-3xl', turkish: 'text-lg', height: 'leading-loose' },     
+            { arabic: 'text-3xl md:text-4xl', turkish: 'text-xl', height: 'leading-loose' },     
+            { arabic: 'text-4xl md:text-5xl', turkish: 'text-2xl', height: 'leading-[3]' }       
+        ];
+
+        // --- INITIALIZATION ---
+        
+        // Populate Tag Filter
+        const allTags = [...new Set(hadiths.flatMap(h => h.tags))].sort();
+        allTags.forEach(tag => {
+            const option = document.createElement('option');
+            option.value = tag;
+            option.textContent = tag;
+            tagFilter.appendChild(option);
+        });
+
+        // --- CORE FUNCTIONS ---
+
         function renderHadiths() {
-            container.innerHTML = hadiths.map((hadith, index) => `
-                <div class="glass-panel rounded-2xl p-6 md:p-8 card-hover relative overflow-hidden group reveal">
-                    <!-- Decorative Number Background -->
-                    <div class="absolute -right-4 -top-6 text-9xl font-bold text-slate-100 dark:text-slate-800 opacity-50 z-0 pointer-events-none select-none font-sans">
-                        ${hadith.id}
-                    </div>
-                    
-                    <div class="relative z-10">
-                        <div class="flex flex-col md:flex-row md:items-start justify-between gap-4 mb-6">
-                            <div class="flex items-center gap-3">
-                                <span class="flex items-center justify-center w-10 h-10 rounded-full bg-emerald-100 dark:bg-emerald-900 text-emerald-700 dark:text-emerald-300 font-bold border border-emerald-200 dark:border-emerald-700">
-                                    ${hadith.id}
-                                </span>
-                                <div>
-                                    <h3 class="text-sm font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Ravi</h3>
-                                    <p class="font-medium text-slate-700 dark:text-slate-200">${hadith.narrator}</p>
+            // Filter Logic
+            const filtered = hadiths.filter(h => {
+                const matchesSearch = 
+                    h.turkish.toLowerCase().includes(state.searchQuery.toLowerCase()) ||
+                    h.arabic.includes(state.searchQuery) ||
+                    h.narrator.toLowerCase().includes(state.searchQuery.toLowerCase()) ||
+                    h.id.toString().includes(state.searchQuery);
+                
+                const matchesTag = state.selectedTag === '' || h.tags.includes(state.selectedTag);
+                const matchesFav = !state.showFavoritesOnly || state.favorites.includes(h.id);
+
+                return matchesSearch && matchesTag && matchesFav;
+            });
+
+            // Update UI State
+            if (filtered.length === 0) {
+                container.innerHTML = '';
+                emptyState.classList.remove('hidden');
+                emptyState.classList.add('flex');
+                statusBar.classList.add('hidden');
+            } else {
+                emptyState.classList.add('hidden');
+                emptyState.classList.remove('flex');
+                statusBar.classList.remove('hidden');
+                resultCountSpan.textContent = filtered.length;
+
+                const fontSettings = fontSizes[state.fontSizeLevel];
+
+                container.innerHTML = filtered.map((hadith) => {
+                    const isFav = state.favorites.includes(hadith.id);
+                    const isRead = state.readHadiths.includes(hadith.id);
+                    return `
+                    <div class="glass-panel rounded-2xl p-6 md:p-8 card-hover relative overflow-hidden group reveal transition-all duration-300 border-l-4 ${isFav ? 'border-l-red-500' : 'border-l-transparent'} ${state.memorizationMode ? 'memorize-mode' : ''}">
+                        
+                        <!-- Checkmark for Read Status -->
+                         ${isRead ? '<div class="absolute top-0 right-0 p-3 bg-emerald-100 dark:bg-emerald-900/50 rounded-bl-2xl text-emerald-600 dark:text-emerald-400 z-20"><i class="fas fa-check-circle"></i></div>' : ''}
+
+                        <!-- Decorative Background Number -->
+                        <div class="absolute -right-6 -top-8 text-[8rem] font-bold text-slate-100 dark:text-slate-800 opacity-50 z-0 pointer-events-none select-none font-sans transition-colors">
+                            ${hadith.id}
+                        </div>
+                        
+                        <div class="relative z-10">
+                            <!-- Header -->
+                            <div class="flex items-start justify-between gap-4 mb-6 pr-8">
+                                <div class="flex items-center gap-3">
+                                    <span class="flex items-center justify-center w-10 h-10 rounded-xl bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-300 font-bold border border-emerald-200 dark:border-emerald-700 text-base shadow-sm">
+                                        ${hadith.id}
+                                    </span>
+                                    <div>
+                                        <p class="font-bold text-slate-700 dark:text-slate-200 text-sm md:text-base line-clamp-1">${hadith.narrator}</p>
+                                        <p class="text-[10px] text-slate-400 dark:text-slate-500 uppercase tracking-wider font-bold">Ravi</p>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="flex gap-2">
+
+                            <!-- Arabic Text -->
+                            <div class="mb-6 text-right relative pl-4">
+                                <p class="arabic-text ${fontSettings.arabic} font-arabic text-slate-800 dark:text-slate-100 ${fontSettings.height} transition-all duration-300">
+                                    ${hadith.arabic}
+                                </p>
+                            </div>
+
+                            <!-- Turkish Text (Blur Target) -->
+                            <div class="mb-6 relative pl-4 border-l-4 border-emerald-500/30 dark:border-emerald-500/50 group/text">
+                                <p onclick="revealText(this)" class="blur-target ${fontSettings.turkish} text-slate-700 dark:text-slate-300 leading-relaxed font-sans transition-all duration-300" title="${state.memorizationMode ? 'Görmek için tıklayın' : ''}">
+                                    ${hadith.turkish}
+                                </p>
+                            </div>
+
+                            <!-- Tags -->
+                            <div class="flex flex-wrap gap-2 mb-6">
                                 ${hadith.tags.map(tag => `
-                                    <span class="text-xs px-2 py-1 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700">
+                                    <span class="text-[10px] uppercase font-bold tracking-wider px-2 py-1 rounded bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 border border-slate-200 dark:border-slate-700 cursor-pointer hover:bg-emerald-50 dark:hover:bg-emerald-900/20 hover:text-emerald-600 transition-colors" onclick="setTag('${tag}')">
                                         #${tag}
                                     </span>
                                 `).join('')}
                             </div>
-                        </div>
 
-                        <!-- Arabic Text -->
-                        <div class="mb-6 text-right relative">
-                            <i class="fas fa-quote-right absolute -top-2 right-0 text-2xl text-emerald-200 dark:text-emerald-900 -z-10"></i>
-                            <p class="arabic-text text-2xl md:text-3xl font-arabic text-slate-800 dark:text-slate-100 leading-loose">
-                                ${hadith.arabic}
-                            </p>
-                        </div>
+                            <!-- Footer Actions -->
+                            <div class="flex items-center justify-between pt-4 border-t border-slate-200/60 dark:border-slate-700/60 gap-2">
+                                <div class="text-xs text-slate-400 font-medium truncate max-w-[80px]">
+                                    ${hadith.source}
+                                </div>
+                                
+                                <div class="flex items-center gap-1">
+                                    <button onclick="toggleReadStatus(${hadith.id})" class="w-8 h-8 rounded-lg flex items-center justify-center transition-all ${isRead ? 'bg-emerald-100 text-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-400' : 'text-slate-400 hover:bg-emerald-50 dark:hover:bg-slate-700 hover:text-emerald-500'}" title="${isRead ? 'Okunmadı İşaretle' : 'Okundu İşaretle'}">
+                                        <i class="fas fa-check"></i>
+                                    </button>
 
-                        <!-- Turkish Text -->
-                        <div class="mb-4 relative pl-4 border-l-4 border-emerald-500/30 dark:border-emerald-500/50">
-                            <p class="text-lg text-slate-700 dark:text-slate-300 leading-relaxed font-sans">
-                                ${hadith.turkish}
-                            </p>
-                        </div>
+                                    <button onclick="speakHadith('${hadith.turkish.replace(/'/g, "\\'")}', this)" class="w-8 h-8 flex items-center justify-center rounded-lg text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 dark:hover:bg-slate-700 transition-all" title="Sesli Dinle">
+                                        <i class="fas fa-volume-up"></i>
+                                    </button>
+                                    
+                                    <button onclick="openFocusMode(${hadith.id})" class="w-8 h-8 flex items-center justify-center rounded-lg text-slate-400 hover:text-purple-600 hover:bg-purple-50 dark:hover:bg-slate-700 transition-all" title="Odak Modu">
+                                        <i class="fas fa-expand"></i>
+                                    </button>
 
-                        <!-- Footer -->
-                        <div class="flex items-center justify-between pt-4 border-t border-slate-200/50 dark:border-slate-700/50 mt-4">
-                            <div class="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
-                                <i class="fas fa-book-open text-emerald-500"></i>
-                                <span>Kaynak: ${hadith.source}</span>
+                                    <button onclick="toggleFavorite(${hadith.id})" class="w-8 h-8 flex items-center justify-center rounded-lg transition-all ${isFav ? 'text-red-500 bg-red-50 dark:bg-red-900/20' : 'text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-slate-700'}" title="${isFav ? 'Favorilerden Çıkar' : 'Favorilere Ekle'}">
+                                        <i class="${isFav ? 'fas' : 'far'} fa-heart"></i>
+                                    </button>
+                                </div>
                             </div>
-                            <button onclick="copyToClipboard('${hadith.turkish.replace(/'/g, "\\'")}')" class="text-slate-400 hover:text-emerald-500 transition-colors" title="Hadisi Kopyala">
-                                <i class="far fa-copy"></i>
-                            </button>
                         </div>
                     </div>
-                </div>
-            `).join('');
-
-            // Re-trigger animations
+                `}).join('');
+            }
+            
+            updateProgress();
             setupIntersectionObserver();
         }
 
+        // --- NEW FEATURES LOGIC ---
+
+        function toggleMemorization() {
+            state.memorizationMode = !state.memorizationMode;
+            const btn = document.getElementById('btn-memorize');
+            const dot = btn.querySelector('.toggle-dot');
+            
+            if (state.memorizationMode) {
+                btn.classList.add('bg-purple-100', 'dark:bg-purple-900/30', 'text-purple-700', 'dark:text-purple-300', 'border-purple-200', 'dark:border-purple-800');
+                btn.classList.remove('bg-slate-100', 'dark:bg-slate-800', 'text-slate-600', 'dark:text-slate-300', 'border-transparent');
+                dot.style.transform = 'translate(100%, 0) scale(1.1)';
+                dot.classList.add('bg-purple-500');
+                dot.classList.remove('bg-white');
+            } else {
+                btn.classList.remove('bg-purple-100', 'dark:bg-purple-900/30', 'text-purple-700', 'dark:text-purple-300', 'border-purple-200', 'dark:border-purple-800');
+                btn.classList.add('bg-slate-100', 'dark:bg-slate-800', 'text-slate-600', 'dark:text-slate-300', 'border-transparent');
+                dot.style.transform = 'translate(0, 0) scale(1.1)';
+                dot.classList.remove('bg-purple-500');
+                dot.classList.add('bg-white');
+            }
+            renderHadiths();
+        }
+
+        function revealText(element) {
+            if (state.memorizationMode) {
+                element.classList.toggle('revealed');
+            }
+        }
+
+        function toggleReadStatus(id) {
+            if (state.readHadiths.includes(id)) {
+                state.readHadiths = state.readHadiths.filter(hid => hid !== id);
+            } else {
+                state.readHadiths.push(id);
+            }
+            localStorage.setItem('bulugulMeramRead', JSON.stringify(state.readHadiths));
+            renderHadiths();
+        }
+
+        function updateProgress() {
+            const total = hadiths.length;
+            const read = state.readHadiths.length;
+            const percentage = (read / total) * 100;
+            
+            const text = `${read}/${total}`;
+            progressText.textContent = text;
+            progressTextMobile.textContent = text;
+            
+            progressBar.style.width = `${percentage}%`;
+            progressBarMobile.style.width = `${percentage}%`;
+        }
+
+        function showRandomHadith() {
+            const randomIndex = Math.floor(Math.random() * hadiths.length);
+            const randomHadith = hadiths[randomIndex];
+            
+            // Reset filters to show all so we can scroll to it effectively
+            if (state.searchQuery || state.selectedTag || state.showFavoritesOnly) {
+                resetFilters();
+            }
+            
+            // Wait for render then scroll and highlight
+            setTimeout(() => {
+                // Ideally we would scroll to the element ID but let's just open it in Focus Mode for wow effect
+                openFocusMode(randomHadith.id);
+            }, 100);
+        }
+
+        // --- FOCUS MODE (MODAL) ---
+
+        function openFocusMode(id) {
+            const hadith = hadiths.find(h => h.id === id);
+            if (!hadith) return;
+
+            document.getElementById('modal-id').textContent = hadith.id;
+            document.getElementById('modal-arabic').textContent = hadith.arabic;
+            document.getElementById('modal-turkish').textContent = hadith.turkish;
+            document.getElementById('modal-narrator').textContent = `Ravi: ${hadith.narrator}`;
+            
+            const tagsContainer = document.getElementById('modal-tags');
+            tagsContainer.innerHTML = hadith.tags.map(tag => 
+                `<span class="px-3 py-1 rounded-full bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-300 text-xs font-bold uppercase tracking-wider">#${tag}</span>`
+            ).join('');
+
+            const modal = document.getElementById('focus-modal');
+            modal.classList.remove('hidden'); // Remove display none first
+            // Small timeout to allow transition to work
+            requestAnimationFrame(() => {
+                modal.classList.add('open');
+            });
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        }
+
+        function closeFocusMode() {
+            const modal = document.getElementById('focus-modal');
+            modal.classList.remove('open');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                document.body.style.overflow = '';
+            }, 300);
+        }
+
+        // --- STANDARD FUNCTIONS (Existing logic preserved/tweaked) ---
+
+        function toggleFavorite(id) {
+            if (state.favorites.includes(id)) {
+                state.favorites = state.favorites.filter(fid => fid !== id);
+            } else {
+                state.favorites.push(id);
+            }
+            localStorage.setItem('bulugulMeramFavorites', JSON.stringify(state.favorites));
+            renderHadiths(); 
+        }
+
+        function setTag(tag) {
+            state.selectedTag = tag;
+            tagFilter.value = tag;
+            renderHadiths();
+            document.getElementById('control-bar').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        function resetFilters() {
+            state.searchQuery = '';
+            state.selectedTag = '';
+            state.showFavoritesOnly = false;
+            searchInput.value = '';
+            tagFilter.value = '';
+            favoritesBtn.classList.add('bg-slate-100', 'dark:bg-slate-800', 'text-slate-600', 'border-transparent');
+            favoritesBtn.classList.remove('bg-red-100', 'text-red-600', 'border-red-200');
+            favoritesBtn.innerHTML = '<i class="far fa-heart group-hover:scale-110 transition-transform"></i><span>Favorilerim</span>';
+            renderHadiths();
+        }
+
+        function changeFontSize(delta) {
+            const newLevel = state.fontSizeLevel + delta;
+            if (newLevel >= 0 && newLevel < fontSizes.length) {
+                state.fontSizeLevel = newLevel;
+                renderHadiths();
+            }
+        }
+        
+        // Audio Logic
+        function speakHadith(text, btn) {
+            if (window.speechSynthesis.speaking) {
+                window.speechSynthesis.cancel();
+                document.querySelectorAll('.fa-stop').forEach(icon => {
+                    icon.classList.remove('fa-stop');
+                    icon.classList.add('fa-volume-up');
+                    icon.closest('button').classList.remove('text-emerald-600', 'bg-emerald-100');
+                    const wave = icon.closest('button').querySelector('.playing-indicator');
+                    if(wave) wave.remove();
+                });
+                if (btn.querySelector('.fa-volume-up') === null) return;
+            }
+
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'tr-TR';
+            utterance.rate = 0.9;
+            
+            utterance.onstart = () => {
+                const icon = btn.querySelector('i');
+                icon.classList.remove('fa-volume-up');
+                icon.classList.add('fa-stop');
+                btn.classList.add('text-emerald-600', 'bg-emerald-100', 'dark:bg-emerald-900/50');
+                const waveDiv = document.createElement('div');
+                waveDiv.className = 'playing-indicator absolute -top-1 -right-1 flex gap-0.5';
+                waveDiv.innerHTML = '<span></span><span></span><span></span>';
+                btn.style.position = 'relative';
+                btn.appendChild(waveDiv);
+            };
+
+            utterance.onend = () => {
+                const icon = btn.querySelector('i');
+                icon.classList.remove('fa-stop');
+                icon.classList.add('fa-volume-up');
+                btn.classList.remove('text-emerald-600', 'bg-emerald-100', 'dark:bg-emerald-900/50');
+                const wave = btn.querySelector('.playing-indicator');
+                if(wave) wave.remove();
+            };
+
+            window.speechSynthesis.speak(utterance);
+        }
+
+        // Event Listeners
+        searchInput.addEventListener('input', (e) => {
+            state.searchQuery = e.target.value;
+            renderHadiths();
+        });
+
+        tagFilter.addEventListener('change', (e) => {
+            state.selectedTag = e.target.value;
+            renderHadiths();
+        });
+
+        favoritesBtn.addEventListener('click', () => {
+            state.showFavoritesOnly = !state.showFavoritesOnly;
+            if (state.showFavoritesOnly) {
+                favoritesBtn.classList.remove('bg-slate-100', 'dark:bg-slate-800', 'text-slate-600', 'border-transparent');
+                favoritesBtn.classList.add('bg-red-100', 'text-red-600', 'border-red-200', 'dark:bg-red-900/40', 'dark:border-red-800');
+                favoritesBtn.innerHTML = '<i class="fas fa-heart text-red-500"></i><span>Tümünü Göster</span>';
+            } else {
+                favoritesBtn.classList.add('bg-slate-100', 'dark:bg-slate-800', 'text-slate-600', 'border-transparent');
+                favoritesBtn.classList.remove('bg-red-100', 'text-red-600', 'border-red-200', 'dark:bg-red-900/40', 'dark:border-red-800');
+                favoritesBtn.innerHTML = '<i class="far fa-heart group-hover:scale-110 transition-transform"></i><span>Favorilerim</span>';
+            }
+            renderHadiths();
+        });
+
+        // Setup Observers
         function setupIntersectionObserver() {
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
@@ -420,19 +909,11 @@
                         entry.target.classList.add('active');
                     }
                 });
-            }, { threshold: 0.1 });
-
+            }, { threshold: 0.05 });
             document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
         }
 
-        function copyToClipboard(text) {
-            navigator.clipboard.writeText(text).then(() => {
-                // Simple toast could go here
-                alert("Hadis kopyalandı!"); 
-            });
-        }
-
-        // Theme Toggle Logic
+        // Theme Toggle
         if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             document.documentElement.classList.add('dark');
         } else {
@@ -448,23 +929,21 @@
             }
         });
 
-        // Scroll to Top & Navbar Logic
+        // Scroll Logic
         window.addEventListener('scroll', () => {
             const nav = document.getElementById('navbar');
             if (window.scrollY > 50) {
-                nav.classList.add('-translate-y-2', 'scale-95');
+                nav.classList.add('-translate-y-2');
                 scrollTopBtn.classList.remove('translate-y-20', 'opacity-0');
             } else {
-                nav.classList.remove('-translate-y-2', 'scale-95');
+                nav.classList.remove('-translate-y-2');
                 scrollTopBtn.classList.add('translate-y-20', 'opacity-0');
             }
         });
 
-        scrollTopBtn.addEventListener('click', () => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
+        scrollTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
-        // Initialize
+        // Init
         renderHadiths();
 
     </script>
