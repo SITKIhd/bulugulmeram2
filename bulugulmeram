@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="tr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bulûğu'l-Merâm | Hadis-i Şerifler (24-45)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'sans': ['"Plus Jakarta Sans"', 'sans-serif'],
+                        'arabic': ['"Amiri"', 'serif'],
+                    },
+                    colors: {
+                        gold: {
+                            400: '#FACC15',
+                            500: '#EAB308',
+                            600: '#CA8A04',
+                        },
+                        islamic: {
+                            light: '#10B981', // Emerald
+                            dark: '#064E3B',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .dark .glass-panel {
+            background: rgba(17, 24, 39, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .card-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        .dark ::-webkit-scrollbar-thumb {
+            background: #374151;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        /* Animation Classes */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .arabic-text {
+            line-height: 2.2;
+            direction: rtl;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-900 dark:text-slate-100 transition-colors duration-300 min-h-screen relative overflow-x-hidden selection:bg-emerald-500 selection:text-white">
+
+    <!-- Background Elements -->
+    <div class="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
+        <div class="absolute top-0 left-1/4 w-96 h-96 bg-emerald-300/20 dark:bg-emerald-500/10 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-300/20 dark:bg-blue-500/10 rounded-full blur-3xl"></div>
+    </div>
+
+    <!-- Navigation / Header -->
+    <nav class="fixed w-full z-50 transition-all duration-300" id="navbar">
+        <div class="glass-panel shadow-sm">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center h-20">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-lg flex items-center justify-center text-white shadow-lg">
+                            <i class="fas fa-book-quran text-xl"></i>
+                        </div>
+                        <div>
+                            <h1 class="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 to-teal-600 dark:from-emerald-400 dark:to-teal-400">
+                                Bulûğu'l-Merâm
+                            </h1>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 font-medium tracking-wide">AHKÂM HADİSLERİ</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center gap-4">
+                        <span class="hidden md:inline-block text-sm font-medium px-3 py-1 rounded-full bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
+                            Hadis 24 - 45
+                        </span>
+                        <button id="theme-toggle" class="w-10 h-10 rounded-full flex items-center justify-center bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-emerald-500 hover:text-white dark:hover:bg-emerald-500 transition-all duration-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 dark:focus:ring-offset-slate-900">
+                            <i class="fas fa-moon dark:hidden"></i>
+                            <i class="fas fa-sun hidden dark:block"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-28 pb-12 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
+        
+        <!-- Header Section -->
+        <header class="text-center mb-16 reveal active">
+            <span class="inline-block py-1 px-3 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-300 text-xs font-bold tracking-wider uppercase mb-4 border border-blue-200 dark:border-blue-800">
+                Necasetin Giderilmesi & Abdest
+            </span>
+            <h2 class="text-4xl md:text-5xl font-bold mb-6 leading-tight">
+                Temizlik ve Abdest Adabı
+            </h2>
+            <p class="text-lg text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
+                 Necasetin Giderilmesi ve Abdest bahisleri (24-45. Hadisler).
+            </p>
+        </header>
+
+        <!-- Hadith Grid -->
+        <div id="hadith-container" class="grid grid-cols-1 gap-8">
+            <!-- Content will be injected by JS -->
+        </div>
+
+        <!-- Pagination / Footer Loading -->
+        <div class="mt-16 text-center">
+            <div class="inline-flex items-center gap-2 text-slate-400 text-sm">
+                <i class="fas fa-circle text-[8px] animate-bounce"></i>
+                <i class="fas fa-circle text-[8px] animate-bounce delay-100"></i>
+                <i class="fas fa-circle text-[8px] animate-bounce delay-200"></i>
+            </div>
+            <p class="mt-4 text-slate-500 dark:text-slate-400 text-sm">Kaynak: Muhammet Sıtkı Karabağ'ın Bizzati Kendisi</p>
+        </div>
+    </main>
+
+    <!-- Scroll to Top Button -->
+    <button id="scroll-top" class="fixed bottom-8 right-8 w-12 h-12 rounded-full bg-emerald-600 text-white shadow-lg flex items-center justify-center translate-y-20 opacity-0 transition-all duration-300 hover:bg-emerald-700 z-40">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script>
+        // Data: Hadiths 24-45 from the uploaded PDF
+        const hadiths = [
+            // NECÂSETİN GİDERİLMESİ BABI
+            {
+                id: 24,
+                narrator: "Enes bin Mâlik (r.a)",
+                arabic: "سُئِلَ رَسُولُ اَللَّهِ صَلَّى اَللَّهُ عَلَيْهِ وَسَلَّمَ عَنْ اَلْخَمْرِ تُتَّخَذُ خَلًّا ? قَالَ : لَا",
+                turkish: "Resûlullah (s.a.v)'e şarabın sirke yapılıp yapılamayacağı soruldu. 'Hayır' buyurdu.",
+                source: "Müslim",
+                tags: ["Şarap", "Sirke", "Necaset"]
+            },
+            {
+                id: 25,
+                narrator: "Enes bin Mâlik (r.a)",
+                arabic: "لَمَّا كَانَ يَوْمُ خَيْبَرَ ، أَمَرَ رَسُولُ اَللَّهِ صَلَّى اَللَّهُ عَلَيْهِ وَسَلَّمَ أَبَا طَلْحَةَ ، فَنَادَى : إِنَّ اَللَّهَ وَرَسُولَهُ يَنْهَيَانِكُمْ عَنْ لُحُومِ اَلْحُمُرِ اَلْأَهْلِيَّةِ ، فَإِنَّهَا رِجْسٌ",
+                turkish: "Hayber günü Resûlullah (s.a.v) Ebû Talha'ya şöyle seslenmesini emretti: 'Allah ve Resulü sizi ehli (evcil) eşek etlerinden men eder. Çünkü o pistir (ricstir).'",
+                source: "Muttefekun Aleyh",
+                tags: ["Eşek Eti", "Rics"]
+            },
+            {
+                id: 26,
+                narrator: "Amr bin Hârice (r.a)",
+                arabic: "خَطَبَنَا رَسُولُ اَللَّهِ صَلَّى اَللَّهُ عَلَيْهِ وَسَلَّمَ بِمِنًى وَهُوَ عَلَى رَاحِلَتِهِ , وَلُعَابُهَا يَسِيلُ عَلَى كَتِفَيَّ",
+                turkish: "Resûlullah (s.a.v) Mina'da bineği üzerindeyken bize hutbe verdi. Bineğinin salyası omuzlarımdan aşağı akıyordu. (Salyanın necis olmadığına delildir).",
+                source: "Ahmed ve Tirmizî",
+                tags: ["Salya", "Temizlik"]
+            },
+            {
+                id: 27,
+                narrator: "Hz. Aişe (r.a)",
+                arabic: "كَانَ رَسُولُ اَللَّهِ صَلَّى اَللَّهُ عَلَيْهِ وَسَلَّمَ يَغْسِلُ اَلْمَنِيَّ ، ثُمَّ يَخْرُجُ إِلَى اَلصَّلَاةِ فِي ذَلِكَ اَلثَّوْبِ ، وَأَنَا أَنْظُرُ إِلَى أَثَرِ اَلْغَسْلِ فِيهِ",
+                turkish: "Resûlullah (s.a.v) (elbisesindeki) meniyi yıkardı. Sonra o elbise ile namaza çıkardı. Ben de elbisedeki yıkama izine (ıslaklığına) bakardım.",
+                source: "Muttefekun Aleyh",
+                tags: ["Meni", "Yıkama"]
+            },
+            {
+                id: 28,
+                narrator: "Hz. Aişe (r.a)",
+                arabic: "لَقَدْ كُنْتُ أَفْرُكُهُ مِنْ ثَوْبِ رَسُولِ اَللَّهِ صَلَّى اَللَّهُ عَلَيْهِ وَسَلَّمَ فَرْكًا ، فَيُصَلِّي فِيهِ. وَفِي لَفْظٍ : لَقَدْ كُنْتُ أَحُكُّهُ يَابِسًا بِظُفْرِي مِنْ ثَوْبِهِ",
+                turkish: "(Müslim rivayetinde): Ben onu Resûlullah'ın (s.a.v) elbisesinden ovalardım, o da onunla namaz kılardı. (Diğer lafızda): Kurumuşken tırnağımla kazırdım.",
+                source: "Müslim",
+                tags: ["Meni", "Ovalama"]
+            },
+            {
+                id: 29,
+                narrator: "Ebu's-Semh (r.a)",
+                arabic: "يُغْسَلُ مِنْ بَوْلِ اَلْجَارِيَةِ ، وَيُرَشُّ مِنْ بَوْلِ اَلْغُلَامِ",
+                turkish: "Kız çocuğunun idrarından dolayı (elbise) yıkanır, erkek çocuğunun idrarından dolayı ise üzerine su serpilir.",
+                source: "Ebu Dâvûd ve Nesâî",
+                tags: ["Çocuk", "İdrar"]
+            },
+            {
+                id: 30,
+                narrator: "Esma bint Ebi Bekir (r.a)",
+                arabic: "فِي دَمِ اَلْحَيْضِ يُصِيبُ اَلثَّوْبَ : تَحُتُّهُ ، ثُمَّ تَقْرُصُهُ بِالْمَاءِ ، ثُمَّ تَنْضَحُهُ ، ثُمَّ تُصَلِّي فِيهِ",
+                turkish: "Elbiseye bulaşan hayız kanı hakkında: Onu (kuruyken) ovalar, sonra su ile çitiler, sonra üzerine su serper (yıkar) ve onunla namaz kılar.",
+                source: "Muttefekun Aleyh",
+                tags: ["Hayız", "Kan"]
+            },
+            {
+                id: 31,
+                narrator: "Ebu Hureyre (r.a)",
+                arabic: "يَا رَسُولَ اَللَّهِ ! فَإِنْ لَمْ يَذْهَبْ اَلدَّمُ ? قَالَ : يَكْفِيكِ اَلْمَاءُ ، وَلَا يَضُرُّكِ أَثَرُهُ",
+                turkish: "Havle sordu: 'Ey Allah'ın Resulü! Ya kan (lekesi) gitmezse?' Buyurdu ki: 'Su sana yeterlidir, onun izi (renginin kalması) sana zarar vermez.'",
+                source: "Tirmizî",
+                tags: ["Leke", "Af"]
+            },
+            // ABDEST BABI (Bâbu'l-Vudû)
+            {
+                id: 32,
+                narrator: "Ebu Hureyre (r.a)",
+                arabic: "لَوْلَا أَنْ أَشُقَّ عَلَى أُمَّتِي لَأَمَرْتُهُمْ بِالسِّوَاكِ مَعَ كُلِّ وُضُوءٍ",
+                turkish: "Ümmetime zor gelmeyeceğini bilseydim, onlara her abdestle beraber misvak kullanmalarını emrederdim.",
+                source: "Malik, Ahmed, Nesâî",
+                tags: ["Misvak", "Abdest"]
+            },
+            {
+                id: 33,
+                narrator: "Humrân (Hz. Osman'ın azatlısı)",
+                arabic: "دَعَا بِوَضُوءٍ فَغَسَلَ كَفَّيْهِ ثَلَاثَ مَرَّاتٍ ، ثُمَّ مَضْمَضَ وَاسْتَنْشَقَ وَاسْتَنْثَرَ ، ثُمَّ غَسَلَ وَجْهَهُ ثَلَاثَ مَرَّاتٍ... رَأَيْتُ رَسُولَ اَللَّهِ يَتَوَضَّأُ نَحْوَ وُضُوئِي هَذَا",
+                turkish: "Hz. Osman abdest suyu istedi. Ellerini üç kere yıkadı. Sonra ağzına ve burnuna su verip sümkürdü. Sonra yüzünü üç kere yıkadı... Sonra 'Ben Resûlullah'ı (s.a.v) benim şu abdestim gibi abdest alırken gördüm' dedi.",
+                source: "Muttefekun Aleyh",
+                tags: ["Abdest", "Sünnet"]
+            },
+            {
+                id: 34,
+                narrator: "Ali İbn Ebi Talib (r.a)",
+                arabic: "فِي صِفَةِ وُضُوءِ اَلنَّبِيِّ صَلَّى اَللَّهُ عَلَيْهِ وَسَلَّمَ قَالَ : وَمَسَحَ بِرَأْسِهِ وَاحِدَةً",
+                turkish: "Peygamber'in (s.a.v) abdestini tarif ederken şöyle dedi: 'Ve başını bir kere meshetti.'",
+                source: "Ebu Dâvûd",
+                tags: ["Mesh", "Baş"]
+            },
+            {
+                id: 35,
+                narrator: "Abdullah bin Zeyd (r.a)",
+                arabic: "وَمَسَحَ بِرَأْسِهِ فَأَقْبَلَ بِيَدَيْهِ وَأَدْبَرَ... بَدَأَ بِمُقَدَّمِ رَأْسِهِ حَتَّى ذَهَبَ بِهِمَا إِلَى قَفَاهُ ، ثُمَّ رَدَّهُمَا إِلَى اَلْمَكَانِ اَلَّذِي بَدَأَ مِنْهُ",
+                turkish: "Başını meshetti, ellerini öne ve arkaya götürdü... Başının önünden başladı, ellerini ensesine kadar götürdü, sonra başladığı yere geri getirdi.",
+                source: "Muttefekun Aleyh",
+                tags: ["Mesh", "Şekil"]
+            },
+            {
+                id: 36,
+                narrator: "Abdullah bin Amr (r.a)",
+                arabic: "ثُمَّ مَسَحَ بِرَأْسِهِ ، وَأَدْخَلَ إِصْبَعَيْهِ اَلسَّبَّاحَتَيْنِ فِي أُذُنَيْهِ ، وَمَسَحَ بِإِبْهَامَيْهِ ظَاهِرَ أُذُنَيْهِ",
+                turkish: "Sonra başını meshetti, şehadet parmaklarını kulaklarının içine soktu ve baş parmaklarıyla kulaklarının dışını meshetti.",
+                source: "Ebu Dâvûd ve Nesâî",
+                tags: ["Kulak", "Mesh"]
+            },
+            {
+                id: 37,
+                narrator: "Ebu Hureyre (r.a)",
+                arabic: "إِذَا اسْتَيْقَظَ أَحَدُكُمْ مِنْ مَنَامِهِ فَلْيَسْتَنْثِرْ ثَلَاثًا ، فَإِنَّ اَلشَّيْطَانَ يَبِيتُ عَلَى خَيْشُومِهِ",
+                turkish: "Biriniz uykusundan uyandığı zaman üç defa burnunu temizlesin (sümkürsün). Çünkü şeytan onun genzinde geceler.",
+                source: "Muttefekun Aleyh",
+                tags: ["Uyku", "Burun"]
+            },
+            {
+                id: 38,
+                narrator: "Ebu Hureyre (r.a)",
+                arabic: "إِذَا اسْتَيْقَظَ أَحَدُكُمْ مِنْ نَوْمِهِ فَلَا يَغْمِسُ يَدَهُ فِي اَلْإِنَاءِ حَتَّى يَغْسِلَهَا ثَلَاثًا ، فَإِنَّهُ لَا يَدْرِي أَيْنَ بَاتَتْ يَدُهُ",
+                turkish: "Biriniz uykusundan uyandığı zaman elini üç defa yıkamadan kaba daldırmasın. Çünkü o, elinin nerede gecelediğini bilmez.",
+                source: "Muttefekun Aleyh",
+                tags: ["Uyku", "El Yıkama"]
+            },
+            {
+                id: 39,
+                narrator: "Lakît bin Sabire (r.a)",
+                arabic: "أَسْبِغْ اَلْوُضُوءَ ، وَخَلِّلْ بَيْنَ اَلْأَصَابِعِ ، وَبَالِغْ فِي اَلِاسْتِنْشَاقِ إِلَّا أَنْ تَكُونَ صَائِمًا",
+                turkish: "Abdesti tam al, parmaklarının arasını hilalle, oruçlu olmadığın sürece burnuna suyu iyice çek (mübalağa et).",
+                source: "Dört Sünen",
+                tags: ["İstinsak", "Oruç"]
+            },
+            {
+                id: 40,
+                narrator: "Hz. Osman (r.a)",
+                arabic: "أَنَّ اَلنَّبِيَّ صَلَّى اَللَّهُ عَلَيْهِ وَسَلَّمَ كَانَ يُخَلِّلُ لِحْيَتَهُ فِي اَلْوُضُوءِ",
+                turkish: "Peygamber (s.a.v) abdest alırken sakalını hilallerdi (parmaklarıyla arasına girerdi).",
+                source: "Tirmizî",
+                tags: ["Sakal", "Hilalleme"]
+            },
+            {
+                id: 41,
+                narrator: "Abdullah bin Zeyd (r.a)",
+                arabic: "أَنَّ اَلنَّبِيَّ صَلَّى اَللَّهُ عَلَيْهِ وَسَلَّمَ أُتِيَ بِثُلُثَيْ مُدٍّ ، فَجَعَلَ يَدْلُكُ ذِرَاعَيْهِ",
+                turkish: "Peygamber'e (s.a.v) bir müddün üçte ikisi kadar su getirildi. O da (bununla abdest alıp) kollarını ovmaya başladı.",
+                source: "Ahmed",
+                tags: ["Ovma", "Su Tasarrufu"]
+            },
+            {
+                id: 42,
+                narrator: "Abdullah bin Zeyd (r.a)",
+                arabic: "أَنَّهُ رَأَى اَلنَّبِيَّ صَلَّى اَللَّهُ عَلَيْهِ وَسَلَّمَ يَأْخُذُ لِأُذُنَيْهِ مَاءً خِلَافَ اَلْمَاءِ اَلَّذِي أَخَذَهُ لِرَأْسِهِ",
+                turkish: "Peygamber'i (s.a.v), başı için aldığı sudan başka yeni bir su ile kulaklarını meshederken gördü.",
+                source: "Beyhakî",
+                tags: ["Kulak", "Su"]
+            },
+            {
+                id: 43,
+                narrator: "Ebu Hureyre (r.a)",
+                arabic: "إِنَّ أُمَّتِي يَأْتُونَ يَوْمَ اَلْقِيَامَةِ غُرًّا مُحَجَّلِينَ مِنْ أَثَرِ اَلْوُضُوءِ",
+                turkish: "Şüphesiz ümmetim kıyamet günü abdest izinden dolayı yüzleri ve ayakları parlak olarak gelirler.",
+                source: "Muttefekun Aleyh",
+                tags: ["Kıyamet", "Nur"]
+            },
+            {
+                id: 44,
+                narrator: "Hz. Aişe (r.a)",
+                arabic: "كَانَ اَلنَّبِيُّ صَلَّى اَللَّهُ عَلَيْهِ وَسَلَّمَ يُعْجِبُهُ اَلتَّيَمُّنُ فِي تَنَعُّلِهِ ، وَتَرَجُّلِهِ ، وَطُهُورِهِ ، وَفِي شَأْنِهِ كُلِّهِ",
+                turkish: "Peygamber (s.a.v) ayakkabısını giyerken, saçını tararken, temizlenirken ve bütün işlerinde sağdan başlamayı severdi.",
+                source: "Muttefekun Aleyh",
+                tags: ["Sağ", "Sünnet"]
+            },
+            {
+                id: 45,
+                narrator: "Ebu Hureyre (r.a)",
+                arabic: "إِذَا تَوَضَّأْتُمْ فَابْدَؤُوا بِمَيَامِنِكُمْ",
+                turkish: "Abdest aldığınız zaman sağ uzuvlarınızdan başlayın.",
+                source: "Dört Sünen",
+                tags: ["Emir", "Sağ"]
+            }
+        ];
+
+        const container = document.getElementById('hadith-container');
+        const themeToggle = document.getElementById('theme-toggle');
+        const scrollTopBtn = document.getElementById('scroll-top');
+
+        // Initial Render
+        function renderHadiths() {
+            container.innerHTML = hadiths.map((hadith, index) => `
+                <div class="glass-panel rounded-2xl p-6 md:p-8 card-hover relative overflow-hidden group reveal">
+                    <!-- Decorative Number Background -->
+                    <div class="absolute -right-4 -top-6 text-9xl font-bold text-slate-100 dark:text-slate-800 opacity-50 z-0 pointer-events-none select-none font-sans">
+                        ${hadith.id}
+                    </div>
+                    
+                    <div class="relative z-10">
+                        <div class="flex flex-col md:flex-row md:items-start justify-between gap-4 mb-6">
+                            <div class="flex items-center gap-3">
+                                <span class="flex items-center justify-center w-10 h-10 rounded-full bg-emerald-100 dark:bg-emerald-900 text-emerald-700 dark:text-emerald-300 font-bold border border-emerald-200 dark:border-emerald-700">
+                                    ${hadith.id}
+                                </span>
+                                <div>
+                                    <h3 class="text-sm font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Ravi</h3>
+                                    <p class="font-medium text-slate-700 dark:text-slate-200">${hadith.narrator}</p>
+                                </div>
+                            </div>
+                            <div class="flex gap-2">
+                                ${hadith.tags.map(tag => `
+                                    <span class="text-xs px-2 py-1 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700">
+                                        #${tag}
+                                    </span>
+                                `).join('')}
+                            </div>
+                        </div>
+
+                        <!-- Arabic Text -->
+                        <div class="mb-6 text-right relative">
+                            <i class="fas fa-quote-right absolute -top-2 right-0 text-2xl text-emerald-200 dark:text-emerald-900 -z-10"></i>
+                            <p class="arabic-text text-2xl md:text-3xl font-arabic text-slate-800 dark:text-slate-100 leading-loose">
+                                ${hadith.arabic}
+                            </p>
+                        </div>
+
+                        <!-- Turkish Text -->
+                        <div class="mb-4 relative pl-4 border-l-4 border-emerald-500/30 dark:border-emerald-500/50">
+                            <p class="text-lg text-slate-700 dark:text-slate-300 leading-relaxed font-sans">
+                                ${hadith.turkish}
+                            </p>
+                        </div>
+
+                        <!-- Footer -->
+                        <div class="flex items-center justify-between pt-4 border-t border-slate-200/50 dark:border-slate-700/50 mt-4">
+                            <div class="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
+                                <i class="fas fa-book-open text-emerald-500"></i>
+                                <span>Kaynak: ${hadith.source}</span>
+                            </div>
+                            <button onclick="copyToClipboard('${hadith.turkish.replace(/'/g, "\\'")}')" class="text-slate-400 hover:text-emerald-500 transition-colors" title="Hadisi Kopyala">
+                                <i class="far fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            // Re-trigger animations
+            setupIntersectionObserver();
+        }
+
+        function setupIntersectionObserver() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                // Simple toast could go here
+                alert("Hadis kopyalandı!"); 
+            });
+        }
+
+        // Theme Toggle Logic
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+
+        themeToggle.addEventListener('click', () => {
+            document.documentElement.classList.toggle('dark');
+            if (document.documentElement.classList.contains('dark')) {
+                localStorage.theme = 'dark';
+            } else {
+                localStorage.theme = 'light';
+            }
+        });
+
+        // Scroll to Top & Navbar Logic
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                nav.classList.add('-translate-y-2', 'scale-95');
+                scrollTopBtn.classList.remove('translate-y-20', 'opacity-0');
+            } else {
+                nav.classList.remove('-translate-y-2', 'scale-95');
+                scrollTopBtn.classList.add('translate-y-20', 'opacity-0');
+            }
+        });
+
+        scrollTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Initialize
+        renderHadiths();
+
+    </script>
+</body>
+</html>
