@@ -746,15 +746,20 @@
         }
 
         function showRandomHadith() {
+            // EĞER EZBER MODU KAPALIYSA OTOMATİK OLARAK AÇ
+            if (!state.memorizationMode) {
+                toggleMemorization();
+            }
+
             const randomIndex = Math.floor(Math.random() * hadiths.length);
             const randomHadith = hadiths[randomIndex];
             
-            // Reset filters to show all so we can scroll to it effectively
+            // Filtreleri temizle ki arka planda liste düzgün görünsün
             if (state.searchQuery || state.selectedTag || state.showFavoritesOnly) {
                 resetFilters();
             }
             
-            // Wait for render then scroll and highlight
+            // Render işlemini bekle ve Modalı aç
             setTimeout(() => {
                 // Ideally we would scroll to the element ID but let's just open it in Focus Mode for wow effect
                 openFocusMode(randomHadith.id);
@@ -769,7 +774,33 @@
 
             document.getElementById('modal-id').textContent = hadith.id;
             document.getElementById('modal-arabic').textContent = hadith.arabic;
-            document.getElementById('modal-turkish').textContent = hadith.turkish;
+            
+            // --- GÜNCELLENEN KISIM: TÜRKÇE METİN VE BLUR MANTIĞI ---
+            const turkishTextElement = document.getElementById('modal-turkish');
+            turkishTextElement.textContent = hadith.turkish;
+            
+            // Temel sınıfları sıfırla
+            turkishTextElement.className = "text-lg md:text-xl text-slate-600 dark:text-slate-300 font-medium leading-relaxed transition-all duration-300";
+
+            // Ezber modu kontrolü
+            if (state.memorizationMode) {
+                // Bulanıklık ve tıklama efekti ekle
+                turkishTextElement.classList.add('blur-md', 'select-none', 'cursor-pointer');
+                turkishTextElement.setAttribute('title', 'Görmek için tıklayın');
+                
+                // Tıklayınca bulanıklığı kaldır
+                turkishTextElement.onclick = function() {
+                    this.classList.remove('blur-md', 'select-none');
+                    this.classList.add('text-emerald-700', 'dark:text-emerald-400'); // Okunduğunu belli etmek için hafif renk değişimi
+                };
+            } else {
+                // Ezber modu kapalıysa normal göster ve tıklama özelliğini kaldır
+                turkishTextElement.classList.remove('blur-md', 'select-none', 'cursor-pointer');
+                turkishTextElement.onclick = null;
+                turkishTextElement.removeAttribute('title');
+            }
+            // -------------------------------------------------------
+
             document.getElementById('modal-narrator').textContent = `Ravi: ${hadith.narrator}`;
             
             const tagsContainer = document.getElementById('modal-tags');
